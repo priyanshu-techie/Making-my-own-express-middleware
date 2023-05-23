@@ -73,7 +73,7 @@ function middlewareOne(req, res, next) {
     next(errObj);
   }
 
-  function errorReceiverMiddleware(err,req,res,next){
+  function errorReceiverMiddleware(err,req,res,next){ // takes four parameters
     if(err){
       res.send('<h1>Error gracefully catched without crashing the server </h1>');
     }
