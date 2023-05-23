@@ -39,6 +39,8 @@ app.get('/users', usersOnlyMiddleware, (req, res) => {
     res.send('Users Page')
 })
 
+app.get('/errors',errorGeneratorMiddleware,errorReceiverMiddleware,(req,res)=>res.send(`<h1>error handled </h1>`))
+
 app.get('*', (req, res) => { res.send("404@!! page not found ") });
 
 app.listen(3000, () => console.log('Server Started at 3000'));
@@ -62,4 +64,20 @@ function middlewareOne(req, res, next) {
   function middlewareFour(req, res, next) {
     console.log('Middleware Four')
     next()
+  }
+
+  function errorGeneratorMiddleware(req,res,next){
+    console.log('i am an error generator');
+    let errObj=new Error("I am an error! Danger");
+
+    next(errObj);
+  }
+
+  function errorReceiverMiddleware(err,req,res,next){
+    if(err){
+      res.send('<h1>Error gracefully catched without crashing the server </h1>');
+    }
+    else{
+      next();
+    }
   }
